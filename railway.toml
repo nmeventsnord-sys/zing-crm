@@ -1,5 +1,6 @@
 [build]
 builder = "nixpacks"
+buildCommand = "pnpm install --no-frozen-lockfile && pnpm run build"
 
 [deploy]
-startCommand = "cd artifacts/zing-crm && pnpm install && pnpm run build && node server.js"
+startCommand = "node artifacts/api-server/dist/index.js"
