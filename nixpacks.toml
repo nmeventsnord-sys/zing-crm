@@ -1,3 +1,5 @@
 [phases.install]
 cmds = ['pnpm install --no-frozen-lockfile']
 
+[phases.build]
+cmds = ['cd artifacts/zing-crm && PORT=3000 BASE_PATH=/ pnpm run build && cd ../../artifacts/api-server && node ./build.mjs']
