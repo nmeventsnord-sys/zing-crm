@@ -1,0 +1,17 @@
+Fix rounding errors in PDF totals. The issue is floating point arithmetic causing 0.01 differences. Apply this fix in main.py:
+
+Round all prices to exactly 2 decimals using: ht = round(round(pu_ttc, 2) / 1.2, 2), tva = round(ht * 0.2, 2), ttc = round(ht + tva, 2)
+For the totals summary: ht_total = sum of all HT lines rounded to 2 decimals, tva_total = round(ht_total * 0.2, 2), total_ttc = round(ht_total + tva_total, 2)
+Never subtract to get TVA (ttc - ht causes floating point errors), always multiply (ht * 0.2)
+Apply same fix everywhere totals are calculated in the PDF generator
+Republish.
+
+alors ca enregistre le pdf mais ca ne le telecharge pas rien ne se garde je peux pas le visualiser14:52On va tout régler d'un coup. Dans "Make, test, iterate..." :
+
+
+Fix these critical issues:
+1. PDF download not working: When user clicks download quote button, it must actually trigger a browser file download. Use this approach: call fetch('/api/generate-pdf', {method:'POST', body: JSON.stringify(data)}), then convert response to blob, create a temporary URL with URL.createObjectURL(blob), click it programmatically to trigger download, then revoke the URL. Make sure the button shows a loading state while generating.
+2. Quotes not saving to Supabase: Every time a quote is created (manual or AI), save it to the quotes table in Supabase immediately with all fields: id, contact_id, contact_name, contact_type, numero, titre, forfait, statut, date_creation, lignes (as JSON), total_ht, total_tva, total_ttc, remise, livraison. Show a success message after saving.
+3. View quote on client page: After saving, display all quotes linked to this client on their detail page. Each quote shows: number, date, total TTC, status badge. Add a "Télécharger" button on each saved quote that regenerates and downloads the PDF.
+4. Fix Flask backend: Make sure main.py Flask server runs on port 5000 AND the frontend runs on port 3000/5173. The frontend must proxy /api calls to port 5000. Add a .replit or vite.config proxy: {'/api': 'http://localhost:5000'}.
+Republish everything.

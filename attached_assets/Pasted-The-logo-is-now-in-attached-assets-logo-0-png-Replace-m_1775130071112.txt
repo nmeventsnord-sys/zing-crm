@@ -1,0 +1,30 @@
+The logo is now in attached_assets/logo_0.png. Replace main.py with a complete Python Flask server that serves the app AND generates PDFs. Create a POST endpoint /api/generate-pdf that generates a professional 2-page PDF using reportlab.
+PAGE 1 exact design:
+
+White background, navy left sidebar 7mm wide (#0D1B2A), gold accent strip on sidebar at 33%-65% height (#C9A84C)
+Navy header 52mm tall, logo_0.png centered in header (28mm wide), company info top-left in white: "TIME TO SMILE" bold, "5 rue du Colibri — 59650 Villeneuve d'Ascq", "06.85.27.54.65 | Nicolas@timetosmile.fr", "timetosmile.fr"
+Top-right in header: "DEVIS" in gold, devis number large white bold, emission date, "Validité : 60 jours"
+Two cards side by side: LEFT card blue (#1F3864) header "■ DEVIS ÉTABLI POUR" + white background with client name bold large, email, phone, event date. RIGHT card gold header "■ ÉVÉNEMENT" + light gray background with event type, date, location
+"PRESTATIONS" title with gold underline
+Table with navy header row, columns: Réf.(blue bold) | Désignation | Qté | P.U TTC | Total TTC | Total HT | TVA, alternating white/light gray rows
+INCLUS PHOTOBOOTH: navy left block with "INCLUS PHOTOBOOTH" in gold, 8 checkmarks in 2 columns: "✓ Photos numériques illimitées", "✓ Personnalisation des cadres photo", "✓ Filtres NB, Sépia, Pop Art", "✓ Envoi par mail ou SMS en temps réel", "✓ Assistance téléphonique incluse", "✓ Lien de téléchargement post-événement", "✓ Retrait possible dans nos locaux (livraison offerte)", "✓ +200 tirages disponibles en cours d'événement (+100€)"
+Totals table: Base HT | Taux TVA | Montant TVA | Total TTC with navy header
+Right side summary: Sous-total HT, TVA 20%, Total TTC, then navy box "NET À PAYER" with amount bold
+FOR PARTICULIER: gold button "✦ RÉSERVEZ ICI — Acompte 60 € ✦" linking to https://pay.sumup.com/b2c/QEVGSUR1, text "(Le solde sera réglé à la livraison / retrait du matériel.)", italic text "Merci d'indiquer le nom figurant sur ce devis lors du règlement : [PRENOM NOM bold]"
+FOR PROFESSIONNEL: blue bold "Pour valider ce devis :", then "Merci de nous faire un retour bon pour accord par mail ou de nous renvoyer ce devis signé." Client card shows: société bold large, adresse, ville, email, contact name
+RÈGLEMENT section: "IBAN : FR76 1350 7000 1931 9488 0215 975 | BIC : CCBPFRPPLIL", "Code banque : 13507 | Code guichet : 00019 | N°Compte : 31948802159 | Clé RIB : 75", "Règlement à réception — Chèque / Espèces / Virement bancaire"
+Navy footer: "EURL NM EVENTS — Capital 1 000 € — SIRET 85249214900012 — TVA FR67852492149 — timetosmile.fr", gold text "Merci pour votre confiance ✦ Time To Smile"
+
+PAGE 2 exact design:
+
+Same navy sidebar and gold accent
+Navy header with logo left, "CONDITIONS GÉNÉRALES DE VENTE" centered white bold large, gold subtitle "TIME TO SMILE — EURL NM EVENTS — SIRET 85249214900012", top-right "Mise à jour : 01/02/2023" and "TVA FR67852492149"
+18 articles in 2 columns, gold bold titles, justified body text 6.2pt, alternating white/light gray backgrounds, gold left border on each article:
+Art.1 Champ d'application, Art.2 Commandes & annulation (with bullet points for cancellation rules), Art.3 Conditions tarifaires, Art.4 Facturation & paiement, Art.5 Fourniture des services, Art.6 Obligations du client, Art.7 Force majeure, Art.8 Responsabilité du prestataire, Art.9 Propriété intellectuelle, Art.10 Données personnelles RGPD, Art.11 Durée & résiliation, Art.12 Droit de rétractation, Art.13 Conditions techniques, Art.14 Réclamations, Art.15 Sous-traitance, Art.16 Assurance, Art.17 Autonomie & modification, Art.18 Médiation & litiges
+Same navy footer with "38 rue de Lesquin 59790 Ronchin"
+
+The endpoint receives JSON: {devis_num, client{prenom, nom, email, tel, societe, adresse, ville, type_event, date_event, lieu, type}, lignes[{ref, designation, qte, pu_ttc}], note_livraison, pro}
+Returns the PDF as a downloadable file.
+Make the frontend call this endpoint when generating a quote and offer a download button.
+Install: reportlab pypdf pillow flask. Use attached_assets/logo_0.png for the logo.
+Republish.

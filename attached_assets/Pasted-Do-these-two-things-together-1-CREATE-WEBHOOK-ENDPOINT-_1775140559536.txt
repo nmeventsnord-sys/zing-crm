@@ -1,0 +1,19 @@
+Do these two things together:
+1. CREATE WEBHOOK ENDPOINT:
+Create a public endpoint in the API server:
+
+GET /api/webhook/forminator → returns {"status": "ok"}
+POST /api/webhook/forminator → receives Forminator form data, creates contact in Supabase clients table
+Fields mapping: name-1=nom, name-2=prenom, email-1=email, phone-1=telephone, text-1=societe, text-3=lieu_evenement, date-1=date_evenement, textarea-1=notes, form_id (8148=professionnel, 8174=particulier)
+Set: status="nouveau", source_contact="Site web Pro" or "Site web Particulier", date_ajout=today
+Return: {"success": true}
+No authentication required — fully public endpoint.
+
+2. REPLACE HOME PAGE WITH KANBAN DASHBOARD:
+Replace the accueil page with a 4-column Kanban board:
+Column 1 "À appeler" (red): clients where status=nouveau OR status=a_appeler, sorted by created_at DESC. Each card: nom/prénom, téléphone, type événement, date événement, source badge (Site web/Appel), days since created. Buttons: "✓ Eu au tél" (status=devis_envoye + open quote creation) and "Pas eu au tél" (status=essai1_pas_eu + auto-create 2 quotes: F100=199€ and F200=299€)
+Column 2 "Devis à envoyer" (orange): clients where status=essai1_pas_eu. Each card shows client name + 2 auto-generated quotes with download PDF buttons. Button "Devis envoyés ✓" sets status=devis_envoye.
+Column 3 "En attente réponse" (blue): quotes where status=en_attente. Each card: client name, quote number, total TTC, days since created. Badge "Relancer J+2" if 2+ days old (orange). Badge "RELANCE FINALE" if 7+ days old (red). Buttons: "Relancer" (logs suivi interaction), "✓ Accepté" (quote status=accepte, client status=confirme), "✗ Refusé" (quote status=refuse, client status=perdu)
+Column 4 "Confirmés" (green): clients where status=confirme. Each card: nom, forfait, date événement, montant TTC.
+Add at top of dashboard: stats row (total contacts, à appeler, devis en attente, confirmés this month) + button "📞 Appel entrant" that opens a quick form to add a contact from a phone call.
+Republish.

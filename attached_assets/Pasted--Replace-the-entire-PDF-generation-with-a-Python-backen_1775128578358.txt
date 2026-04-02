@@ -1,0 +1,36 @@
+
+
+Replace the entire PDF generation with a Python backend. Install reportlab and pypdf. Create a /api/generate-pdf endpoint. The PDF must be exactly 2 pages:
+PAGE 1 — DEVIS:
+Colors: NAVY=#0D1B2A, BLUE=#1F3864, GOLD=#C9A84C, GL=#F4F4F0
+
+Left navy sidebar with gold accent strip at 33%-65% height
+Navy header (52mm) with logo centered, company info left, devis number right
+Company: TIME TO SMILE, 5 rue du Colibri 59650 Villeneuve d'Ascq, 06.85.27.54.65, Nicolas@timetosmile.fr
+Two cards: left=BLUE "DEVIS ÉTABLI POUR" + client info, right=GOLD "ÉVÉNEMENT" + event info
+Table columns: Réf. | Désignation | Qté | P.U TTC | Total TTC | Total HT | TVA (navy header, alternating white/GL rows)
+INCLUS PHOTOBOOTH section with 8 checkmarks in 2 columns
+Totals table: Base HT | Taux TVA | Montant TVA | Total TTC
+Right side: Sous-total HT, TVA 20%, Total TTC, NET À PAYER (navy box)
+FOR PARTICULIER: golden button "✦ RÉSERVEZ ICI — Acompte 60 € ✦" linking to https://pay.sumup.com/b2c/QEVGSUR1, then text "(Le solde sera réglé à la livraison / retrait du matériel.)" and "Merci d'indiquer le nom figurant sur ce devis lors du règlement : [PRENOM NOM]"
+FOR PROFESSIONNEL: text "Pour valider ce devis :" in blue bold, then "Merci de nous faire un retour bon pour accord par mail ou de nous renvoyer ce devis signé."
+RÈGLEMENT section: IBAN FR76 1350 7000 1931 9488 0215 975 | BIC CCBPFRPPLIL, Code banque 13507, Code guichet 00019, N°Compte 31948802159, Clé RIB 75, Règlement à réception — Chèque / Espèces / Virement bancaire
+Navy footer: EURL NM EVENTS — Capital 1 000 € — SIRET 85249214900012 — TVA FR67852492149 — timetosmile.fr, gold text "Merci pour votre confiance ✦ Time To Smile"
+Validity: 60 jours
+
+PAGE 2 — CGV (18 articles, 2 columns):
+
+Navy header with logo + "CONDITIONS GÉNÉRALES DE VENTE" centered in white
+Gold subtitle: TIME TO SMILE — EURL NM EVENTS — SIRET 85249214900012
+18 articles in 2 columns with gold titles, justified body text
+Same navy footer
+
+PRICING RULES:
+
+F100=199€ TTC, F200=299€ TTC, F400=399€ TTC, F800=499€ TTC (already TTC, HT=price/1.2)
+Livraison ref=fkm: 0-10km=39€, 10-15km=49€, 15-30km=59€, 30-40km=69€, 40-50km=79€, 50-60km=89€, 60-80km=99€
+Remise Smile 40 ref=rem: -40€ only on F200/F400/F800, designation="Remise Smile 40 — Offre du mois"
+For PARTICULIER: show TTC prices, golden SumUp button
+For PROFESSIONNEL: show HT prices, TVA separate, "bon pour accord" text, display société+adresse+ville in client card
+
+Also fix: add ✏️ Modifier button on contact detail page to edit all contact fields. Remove all hours/duration text from forfait cards. Fix all remaining Supabase column errors by checking existing columns before inserting. Republish everything.
