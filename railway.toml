@@ -1,0 +1,5 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "cd artifacts/zing-crm && pnpm install && pnpm run build && node server.js"
