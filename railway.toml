@@ -1,6 +1,6 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pnpm install --no-frozen-lockfile && cd artifacts/api-server && pnpm run build"
+buildCommand = "pnpm install --no-frozen-lockfile && cd artifacts/api-server && node ./build.mjs"
 
 [deploy]
-startCommand = "node artifacts/api-server/dist/index.js"
+startCommand = "node --enable-source-maps artifacts/api-server/dist/index.mjs"
